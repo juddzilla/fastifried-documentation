@@ -3,26 +3,26 @@ import { Heading } from '@/components/Heading'
 
 const guides = [
   {
-    href: '/authentication',
-    name: 'Authentication',
-    description: 'Learn how to authenticate your API requests.',
+    href: '/quickstart#installation',
+    name: 'Installation',
+    description: 'Learn how to install Fastifried.',
   },
   {
-    href: '/pagination',
-    name: 'Pagination',
-    description: 'Understand how to work with paginated responses.',
+    href: '/configuration',
+    name: 'Configuration',
+    description: 'Tell Fastifried the what and the where to.',
   },
   {
-    href: '/errors',
-    name: 'Errors',
+    href: '/build',
+    name: 'Dev or Deploy',
     description:
-      'Read about the different types of errors returned by the API.',
+      'Fastifried with HMR during development, or build for production.',
   },
   {
-    href: '/webhooks',
-    name: 'Webhooks',
+    href: '/example',
+    name: 'Working Example',
     description:
-      'Learn how to programmatically configure webhooks for your app.',
+      'Run the example app to observe the client and server interactions.',
   },
 ]
 

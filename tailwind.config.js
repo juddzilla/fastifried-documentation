@@ -44,6 +44,15 @@ module.exports = {
         7.5: '0.075',
         15: '0.15',
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            a: {
+              color: '#ff496c'
+            }
+          }
+        }
+      }
     },
   },
   plugins: [typographyPlugin, headlessuiPlugin],

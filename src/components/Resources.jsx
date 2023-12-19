@@ -1,21 +1,19 @@
 'use client'
 
 import Link from 'next/link'
-import { motion, useMotionTemplate, useMotionValue } from 'framer-motion'
+import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 
-import { GridPattern } from '@/components/GridPattern'
-import { Heading } from '@/components/Heading'
-import { ChatBubbleIcon } from '@/components/icons/ChatBubbleIcon'
-import { EnvelopeIcon } from '@/components/icons/EnvelopeIcon'
-import { UserIcon } from '@/components/icons/UserIcon'
-import { UsersIcon } from '@/components/icons/UsersIcon'
+import { GridPattern } from '@/components/GridPattern';
+import { Heading } from '@/components/Heading';
+import { EnvelopeIcon } from '@/components/icons/EnvelopeIcon';
+import { UserIcon } from '@/components/icons/UserIcon';
 
 const resources = [
   {
-    href: '/contacts',
-    name: 'Contacts',
+    href: 'https://fastify.dev/docs/latest/Reference/Routes/',
+    name: 'Fastify',
     description:
-      'Learn about the contact model and how to create, retrieve, update, delete, and list contacts.',
+      'Official Fastify Documentation reference',
     icon: UserIcon,
     pattern: {
       y: 16,
@@ -26,24 +24,10 @@ const resources = [
     },
   },
   {
-    href: '/conversations',
-    name: 'Conversations',
+    href: 'https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch',
+    name: 'Using the FETCH API',
     description:
-      'Learn about the conversation model and how to create, retrieve, update, delete, and list conversations.',
-    icon: ChatBubbleIcon,
-    pattern: {
-      y: -6,
-      squares: [
-        [-1, 2],
-        [1, 3],
-      ],
-    },
-  },
-  {
-    href: '/messages',
-    name: 'Messages',
-    description:
-      'Learn about the message model and how to create, retrieve, update, delete, and list messages.',
+      'The global JS API',
     icon: EnvelopeIcon,
     pattern: {
       y: 32,
@@ -51,17 +35,6 @@ const resources = [
         [0, 2],
         [1, 4],
       ],
-    },
-  },
-  {
-    href: '/groups',
-    name: 'Groups',
-    description:
-      'Learn about the group model and how to create, retrieve, update, delete, and list groups.',
-    icon: UsersIcon,
-    pattern: {
-      y: 22,
-      squares: [[0, 1]],
     },
   },
 ]
