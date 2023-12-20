@@ -1,102 +1,84 @@
 export const metadata = {
-  title: 'Quickstart',
+  title: 'Configuration',
   description:
-    'This guide will get you all set up and ready to use the Protocol API. We’ll cover how to get started an API client and how to make your first API request.',
+    'This guide will help you configure Fastifried.',
 }
 
 # Configuration
 
-This guide will get you all set up and ready to use the Protocol API. We'll cover how to get started using one of our API clients and how to make your first API request. We'll also look at where to go next to find all the information you need to take full advantage of our powerful REST API. {{ className: 'lead' }}
+Getting Fastifried up and running only requires 2 arguments, and an optional 2.
+
+## Server-Side Options
 
 <Note>
-  Before you can make requests to the Protocol API, you will need to grab your
-  API key from your dashboard. You find it under [Settings &raquo; API](#).
+   Fastifried requires the absolute paths for the directory options.
 </Note>
 
-## Watch Directory
+<Row>
+  <Col>
+    <Properties>
+      <Property name="distFileName" type="string">
+        The name of the exported file.  Defaults to 'fastifried.js' if not defined
+      </Property>
+      <Property name="distDirectory" type="string">
+        The destination directory of the exported Fastifried file.  Required
+      </Property>
+      <Property name="routes" type="array">
+        An array of Fastify compatible Route objects. See the [official Fastify documentation](https://fastify.dev/docs/latest/Reference/Routes/).
+        Required if options.routesDirectory not defined
+      </Property>
+      <Property name="routesDirectory" type="string">
+        The directory where the Fastify compatible Route files live.  Required if options.routes not defined
+      </Property>
+      <Property name="useNamedExport" type="boolean">
+        Fastifried will used names export 'route' from files discovered by options.routesDirectory. Defaults to false
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
 
-NPX blah blah blah
+      ```js {{ 'title': 'Server Example' }}
+      import fastify from 'fastify';
+      import Fastifried from 'fastifried';
 
-<CodeGroup>
+      const Fastify = fastify({ logger: true });
 
-```bash {{ title: 'cURL' }}
-# cURL is most likely already installed on your machine
-curl --version
-```
+      if (['dev', 'development'].includes(process.env)) {
+          Fastifried(Fastify, {
+            distFileName: 'api.js',
+            distDirectory: 'path/to/dist/',
+            routesDirectory: 'path/to/routes/',
+            useNamedExport: true,
+          });
+      }
+      ```
 
-```bash {{ language: 'js' }}
-# Install the Protocol JavaScript SDK
-npm install @example/protocol-api --save
-```
+  </Col>
+</Row>
 
-```bash {{ language: 'python' }}
-# Install the Protocol Python SDK
-pip install protocol_api
-```
+## Client-Side Options
 
-```bash {{ language: 'php' }}
-# Install the Protocol PHP SDK
-composer require protocol/sdk
-```
+<Row>
+  <Col>
+    <Properties>
+      <Property name="hostUrl" type="string">
+        Base URL of the Host API. Required
+      </Property>
+      <Property name="userHeaders" type="object">
+        Request Headers to be combined with Fastfried default Headers. Optional
+      </Property>
+    </Properties>
+  </Col>
+    <Col sticky>
 
-</CodeGroup>
+        ```js {{ 'title': 'Client Example' }}
+        import FastifriedAPI from '../server/dist/api.js';
 
-<div className="not-prose">
-  <Button href="/sdks" variant="text" arrow="right">
-    <>Check out our list of first-party SDKs</>
-  </Button>
-</div>
+        const API_URI = 'http://localhost';
+        const API = FastifriedAPI(API_URI);
 
-## PreHandlers
+        export default API;
+        ```
 
-After picking your preferred client, you are ready to make your first call to the Protocol API. Below, you can see how to send a GET request to the Conversations endpoint to get a list of all your conversations. In the cURL example, results are limited to ten conversations, the default page length for each client.
-
-<CodeGroup tag="GET" label="/v1/conversations">
-
-```bash {{ title: 'cURL' }}
-curl -G https://api.protocol.chat/v1/conversations \
-  -H "Authorization: Bearer {token}" \
-  -d limit=10
-```
-
-```js
-import ApiClient from '@example/protocol-api'
-
-const client = new ApiClient(token)
-
-await client.conversations.list()
-```
-
-```python
-from protocol_api import ApiClient
-
-client = ApiClient(token)
-
-client.conversations.list()
-```
-
-```php
-$client = new \Protocol\ApiClient($token);
-
-$client->conversations->list();
-```
-
-</CodeGroup>
-
-<div className="not-prose">
-  <Button href="/conversations" variant="text" arrow="right">
-    <>Read the docs for the Conversations endpoint</>
-  </Button>
-</div>
-
-## PreValidation
-
-Great, you're now set up with an API client and have made your first request to the API. Here are a few links that might be handy as you venture further into the Protocol API:
-
-- [Grab your API key from the Protocol dashboard](#)
-- [Check out the Conversations endpoint](/conversations)
-- [Learn about the different error messages in Protocol](/errors)
-
-## consumableDirectory
-
-## consumableFileName
+    </Col>
+</Row>
