@@ -41,7 +41,9 @@ git clone git@github.com:juddzilla/fastifried.git
   </Button>
 </div>
 
-## Import
+## Server-side
+
+### Expose Routes
 
 Import Fastifried into your project. Recommended to implement alongside Fastify.
 
@@ -51,12 +53,12 @@ Import Fastifried into your project. Recommended to implement alongside Fastify.
 import fastify from 'fastify';
 import Fastifried from 'fastifried';
 
-<!-- ... -->
-
-const Fastify = fastify(options);
+const Fastify = fastify({ logger: true });
 
 if (['dev', 'development'].includes(process.env)) {
-    Fastifried(Fastify, fastifriedOptions);
+    Fastifried(Fastify, {
+      // Fastifried options
+    });
 }
 ```
 
@@ -64,12 +66,12 @@ if (['dev', 'development'].includes(process.env)) {
 const fastify = require('fastify');
 const Fastifried = require('fastifried');
 
-<!-- ... -->
-
-const Fastify = fastify(options);
+const Fastify = fastify({ logger: true });
 
 if (['dev', 'development'].includes(process.env)) {
-    Fastifried(Fastify, fastifriedOptions);
+    Fastifried(Fastify, {
+        // Fastifried options
+    });
 }
 ```
 
@@ -81,49 +83,95 @@ if (['dev', 'development'].includes(process.env)) {
   </Button>
 </div>
 
-## Consume
+
+## Client-side
 
 Fastify will create a JS object with each server route as a method, that your client application can use.
 
-<CodeGroup tag="Configure" label="Create the API instance">
+### Configure
+
+Provide the server's base URI
+
+<CodeGroup tag="File" label="/app/api.js">
 
 ```js {{ title: 'ES6' }}
-import fastifriedRoutes from '../server/dist/';
+import Fastifried from '../server/dist/';
 
 const API_URI = 'http://localhost';
-const API = fastifriedRoutes(API_URI);
+const API = Fastifried(API_URI);
+// Fastifried will expose an object with named methods to easily interact with the API
 
 export default API;
 ```
 
 ```js {{ title: 'CJS' }}
-const fastifriedRoutes = require('../server/dist/');
+const Fastifried = require('../server/dist/');
 
 const API_URI = 'http://localhost';
-const API = fastifriedRoutes(API_URI);
+const API = Fastifried(API_URI);
+// Fastifried will expose an object with named methods to easily interact with the API
 
 module.exports = API;
 ```
 
 </CodeGroup>
 
-<CodeGroup tag="Consume" label="Use the API instance">
+### Consume
+
+Import the Fastifried API instance, and execute the desired method.
+
+<CodeGroup tag="File" label="/app/components/things.js">
 
 ```js {{ title: 'ES6' }}
 import API from '../api.js';
 
-const items = await API.Things();
+const people = await API.People();
+// Fastifried will generate a GET request to the url http://localhost/people
 
-<!-- ... -->
+// do other stuffs
 ```
 
 ```js {{ title: 'CJS' }}
 const API = require('../api.js');
 
-API.Things().then(response => {
- // do stuffs
-})
-<!-- ... -->
+API.People().then(response => {
+ // Fastifried will generate a GET request to the url http://localhost/people
+
+ // do other stuffs
+});
 ```
 
+</CodeGroup>
+
+Pass arguments to the Fastifried method, and Fastifried will generate the appropriate url and/or body.fastify
+
+<CodeGroup tag="File" label="/app/components/item.js">
+
+```js {{ title: 'GET' }}
+const character = await API.Characters({ name: 'Bluto' });
+// Fastifried will generate a GET request to the url http://localhost/character/bluto
+
+// do other stuffs
+```
+
+```js {{ title: 'PUT' }}
+const updated = await API.CharactersUpdate({ name: 'Orla', city: 'Derry' });
+ // Fastifried will generate a PUT request to the url http://localhost/character/orla with a request payload of { city: 'Derry' }
+
+ // do other stuffs
+```
+
+```js {{ title: 'POST' }}
+const created = API.ShowsCharacterCreate({ name: 'Sherman', show: "Sherman's Showcase" });
+ // Fastifried will generate a POST request to the url http://localhost/show/shermans%20showcase with a request payload of { name: 'Sherman' }
+
+ // do other stuffs
+```
+
+```js {{ title: 'DELETE' }}
+const removed = API.ShowsCharacterRemove({ name: "Frederick Douglas", show: "Sherman's Showcase" });
+ // Fastifried will generate a DELETE request to the url http://localhost/show/shermans%20showcase/frederick%20douglas
+
+ // do other stuffs
+```
 </CodeGroup>
